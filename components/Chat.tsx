@@ -1,18 +1,11 @@
 "use client";
-import type OpenAI from "openai";
 import { useEffect, useRef, useState } from "react";
 import Markdown from "react-markdown";
 
 const Chat = () => {
   const messageInput = useRef<HTMLTextAreaElement | null>(null);
-  // causes rerender without useEffect due to suspense boundary
-  // const storedResponse = typeof localStorage !== 'undefined' ? localStorage.getItem('response') : null;
-  // const initialHistory = storedResponse ? JSON.parse(storedResponse) : [];
-  // const [history, setHistory] = useState<string[]>(initialHistory);
   const [history, setHistory] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  // const [models, setModels] = useState<ModelType[]>([])
-  const [models, setModels] = useState("gpt-3.5-turbo");
   const [currentModel, setCurrentModel] = useState<string>("gpt-4");
 
   const handleEnter = (
@@ -48,9 +41,6 @@ const Chat = () => {
         currentModel,
       }),
     });
-    console.log("Edge function returned.");
-
-    console.log(response);
 
     if (!response.ok) {
       throw new Error(response.statusText);
@@ -72,14 +62,9 @@ const Chat = () => {
       const { value, done: doneReading } = await reader.read();
       done = doneReading;
       const chunkValue = decoder.decode(value);
-      // currentResponse = [...currentResponse, message, chunkValue];
       currentResponse = [...currentResponse, chunkValue];
       setHistory((prev) => [...prev.slice(0, -1), currentResponse.join("")]);
-      console.log("rerender");
     }
-    console.log("rerender-2");
-    // breaks text indent on refresh due to streaming
-    // localStorage.setItem('response', JSON.stringify(history))
     setIsLoading(false);
   };
 
@@ -88,12 +73,10 @@ const Chat = () => {
     setHistory([]);
   };
 
-  // Save the 'history' state to 'localStorage' whenever it changes
   useEffect(() => {
     localStorage.setItem("response", JSON.stringify(history));
   }, [history]);
 
-  // Initialize 'history' state from 'localStorage' when the component mounts
   useEffect(() => {
     const storedResponse = localStorage.getItem("response");
     if (storedResponse) {
@@ -142,7 +125,7 @@ const Chat = () => {
       >
         <textarea
           name="Message"
-          placeholder="Type your query"
+          placeholder="Start chatting..."
           ref={messageInput}
           onKeyDown={handleEnter}
           className="w-full resize-none bg-transparent outline-none pt-4 pl-4 translate-y-1"

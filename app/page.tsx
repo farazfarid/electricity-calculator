@@ -2,7 +2,6 @@
 import { Hero } from "@/components/Hero";
 import { ModeToggle } from "@/components/ModeToggle";
 import { Calculator } from "@/components/Calculator";
-import SaveEnergy from "@/components/SaveEnergy";
 import Chat from "@/components/Chat";
 import { useEffect, useState } from "react";
 
@@ -19,7 +18,6 @@ export default function Home() {
       const saveEnergyElement = document.getElementById("save-energy");
       const chatElement = document.getElementById("chat");
 
-      // Start checking from the element at the bottom (Chat, in this case)
       if (
         chatElement &&
         chatElement.getBoundingClientRect().top < window.innerHeight
@@ -58,9 +56,6 @@ export default function Home() {
         <div className="my-10" id="calculator">
           <Calculator />
         </div>
-        {/* <div className="my-10" id="save-energy">
-          <SaveEnergy />
-        </div> */}
         <div className={`my-10 ${showModeToggle ? "" : "hidden"}`} id="chat">
           <Chat />
         </div>
