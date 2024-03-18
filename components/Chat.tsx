@@ -119,7 +119,7 @@ const Chat = () => {
           placeholder="Start chatting..."
           ref={messageInput}
           onKeyDown={handleEnter}
-          className="w-full resize-none text-white bg-transparent outline-none pt-4 pl-4 translate-y-1"
+          className="placeholder-gray-100 w-full resize-none text-white bg-transparent outline-none pt-4 pl-4 translate-y-1"
         />
         <button
           disabled={isLoading}
