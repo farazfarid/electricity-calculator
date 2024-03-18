@@ -6,7 +6,7 @@ const Chat = () => {
   const messageInput = useRef<HTMLTextAreaElement | null>(null);
   const [history, setHistory] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [currentModel, setCurrentModel] = useState<string>("gpt-4");
+  const currentModel = "gpt-4";
 
   const handleEnter = (
     e: React.KeyboardEvent<HTMLTextAreaElement> &
@@ -68,11 +68,6 @@ const Chat = () => {
     setIsLoading(false);
   };
 
-  const handleReset = () => {
-    localStorage.removeItem("response");
-    setHistory([]);
-  };
-
   useEffect(() => {
     localStorage.setItem("response", JSON.stringify(history));
   }, [history]);
@@ -83,10 +78,6 @@ const Chat = () => {
       setHistory(JSON.parse(storedResponse));
     }
   }, []);
-
-  const handleModelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCurrentModel(e.target.value);
-  };
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -100,7 +91,7 @@ const Chat = () => {
                     index % 2 === 0 ? "bg-blue-600" : "bg-blue-900"
                   } p-3 rounded-lg`}
                 >
-                  <Markdown>{item}</Markdown>
+                  <Markdown className={"text-white"}>{item}</Markdown>
                 </div>
               );
             })
@@ -113,7 +104,7 @@ const Chat = () => {
                     index % 2 === 0 ? "bg-blue-600" : "bg-blue-900"
                   } p-3 rounded-lg`}
                 >
-                  <Markdown>{item}</Markdown>
+                  <Markdown className={"text-white"}>{item}</Markdown>
                 </div>
               );
             })
@@ -128,12 +119,12 @@ const Chat = () => {
           placeholder="Start chatting..."
           ref={messageInput}
           onKeyDown={handleEnter}
-          className="w-full resize-none bg-transparent outline-none pt-4 pl-4 translate-y-1"
+          className="w-full resize-none text-white bg-transparent outline-none pt-4 pl-4 translate-y-1"
         />
         <button
           disabled={isLoading}
           type="submit"
-          className="absolute top-[1.4rem] right-5 p-1 rounded-md text-gray-500 dark:hover:text-gray-400 dark:hover:bg-gray-900 disabled:hover:bg-transparent dark:disabled:hover:bg-transparent"
+          className="absolute top-[1.4rem] right-5 p-1 rounded-md text-white-500 dark:hover:text-gray-400 dark:hover:bg-gray-900 disabled:hover:bg-transparent dark:disabled:hover:bg-transparent"
         >
           <svg
             stroke="currentColor"
